@@ -1,0 +1,42 @@
+Segmentation data preparation
+
+All paths are relative to the repository root. Use Dataset/ (singular) and the
+exact TRAIN/TEST capitalization shown below.
+
+ActivityRecognition (HAR)
+Source: https://www.cis.fordham.edu/wisdm/dataset.php
+
+Place ActivityRecognition.txt at:
+Dataset/Segmentation/ActivityRecognition/ActivityRecognition.txt
+
+The activity loader expects a headerless file with these columns:
+series, label, timestamp, x-axis, y-axis, z-axis.
+
+FordChallenge
+Source: https://www.kaggle.com/competitions/stayalert/data
+
+The source preparation instructions use stayalert.zip containing Solution.csv,
+fordTrain.csv, and fordTest.csv. Add the test labels from Solution.csv to the
+test data, ensuring that labels are aligned with their corresponding observations.
+
+Rename the files and place them at:
+Dataset/Segmentation/FordChallenge/FordChallenge_TRAIN.csv
+Dataset/Segmentation/FordChallenge/FordChallenge_TEST.csv
+
+Rename the metadata columns to match the loader:
+TrialID -> series
+obsNum -> timestamp
+IsAlert (or ISAlert) -> label
+
+Arrange the first three CSV columns as series, label, timestamp, followed by the
+feature columns. Both CSVs must have headers and contain labels.
+
+Run from the repository root:
+python main.py --data_path Dataset/Segmentation/ --single_dataset ActivityRecognition
+python main.py --data_path Dataset/Segmentation/ --single_dataset FordChallenge
+
+The segmentation loader uses window length 40 and stride 20. It holds out two
+training series for validation, or ten for FordChallenge. These settings are
+defined in Dataset/load_segment_data.py; the UEA --val_ratio and --Norm options
+are not applied by this loader. If a dataset-named .npy cache exists in the dataset
+directory, the loader reuses that cache instead of preprocessing the source files.
