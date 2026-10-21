@@ -1,0 +1,24 @@
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+.ipynb_checkpoints/
+
+# Datasets and generated artifacts
+/Dataset/UEA/
+/Dataset/Segmentation/*
+!/Dataset/Segmentation/Segmentation.Txt
+/Results/
+*.npy
+*.npz
+*.pt
+*.pth
+*.ckpt
+*.log
+
+# Local operating system files
+.DS_Store
+Thumbs.db
